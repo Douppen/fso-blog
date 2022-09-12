@@ -8,14 +8,14 @@ const logger = require("./utils/logger");
 const mongoose = require("mongoose");
 
 // CONNECT TO MONGODB
-logger.info("connecting to MongoDB");
+logger.info("Connecting to MongoDB");
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
-    logger.info("Connected to MongoDB");
+    logger.info("✅ Connected to MongoDB");
   })
   .catch((error) => {
-    logger.error("Error connecting to MongoDB:", error.message);
+    logger.error("❌ Error connecting to MongoDB:", error.message);
   });
 
 // MIDDLEWARE PRECEDING ROUTES
