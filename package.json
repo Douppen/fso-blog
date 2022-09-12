@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint"
+    "test": "jest --verbose",
+    "lint": "eslint",
+    "build:ui": "rm -rf build && echo cd into ui..."
   },
   "author": "Simon Nars",
   "license": "ISC",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "eslint": "^8.23.0",
+    "jest": "^29.0.3",
     "nodemon": "^2.0.19"
   }
 }
