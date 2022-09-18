@@ -17,6 +17,7 @@ DELETE http://localhost:3001/api/blogs/6321e5c99175766155d35203 HTTP/1.1
 Host: localhost:3001
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVvbmUiLCJpZCI6IjYzMjFkYjI5N2E2NjQ0ZjU4YjcxNzE5MyIsImlhdCI6MTY2MzE2MzIwNX0.CwmGC_ifxzzXW4uSZWBRQWAjL3kGFxD49R-e6OCssRk
 
+###
 
 POST http://localhost:3001/api/users HTTP/1.1
 Host: localhost:3001
@@ -24,8 +25,8 @@ Content-Type: application/json
 
 {
     "username": "someone",
-    "name": "Test",
-    "password": "sekretto"
+    "name": "John Doe",
+    "password": "secret"
 }
 
 ###

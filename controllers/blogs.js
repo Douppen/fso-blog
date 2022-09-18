@@ -21,7 +21,9 @@ blogsRouter.get("/:id", async (req, res) => {
 });
 
 blogsRouter.post("/", async (req, res) => {
-  if (!req.body.title && !req.body.url) return res.status(400).end();
+  if (!req.body.title) {
+    return res.status(400).json({ error: "title is required" });
+  }
 
   if (!req.body.likes) req.body.likes = 0;
 
@@ -64,6 +66,10 @@ blogsRouter.put("/:id", async (req, res) => {
     new: true,
     runValidators: true,
     context: "query",
+  }).populate("user", {
+    username: 1,
+    name: 1,
+    id: 1,
   });
   res.json(result);
 });
