@@ -2,8 +2,9 @@ const bcrypt = require("bcrypt");
 const usersRouter = require("express").Router();
 const User = require("../models/user");
 const Blog = require("../models/blog");
+const middleware = require("../utils/middleware");
 
-usersRouter.get("/", async (req, res) => {
+usersRouter.get("/", middleware.userExtractor, async (req, res) => {
   const users = await User.find({}).populate("blogs", {
     title: 1,
     url: 1,
@@ -15,7 +16,7 @@ usersRouter.get("/", async (req, res) => {
   return res.json(users);
 });
 
-usersRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", middleware.userExtractor, async (req, res) => {
   const user = User.findById(req.params.id);
 
   if (!user) return res.status(404).json({ error: "user not found" });
@@ -56,7 +57,7 @@ usersRouter.post("/", async (req, res) => {
   return res.status(201).json(savedUser);
 });
 
-usersRouter.delete("/:id", async (req, res) => {
+usersRouter.delete("/:id", middleware.userExtractor, async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (!user) return res.status(404).json({ error: "user not found" });

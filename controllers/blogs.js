@@ -27,14 +27,43 @@ blogsRouter.post("/", async (req, res) => {
 
   if (!req.body.likes) req.body.likes = 0;
 
-  const blog = new Blog({ ...req.body, user: req.user._id });
+  const blog = new Blog({
+    ...req.body,
+    user: req.user._id,
+  });
   const savedBlog = await blog.save();
 
   const user = await User.findById(req.user._id);
   user.blogs = user.blogs.concat(savedBlog._id);
   await user.save();
 
-  res.status(201).json(savedBlog);
+  const populatedResponse = {
+    ...savedBlog.toJSON(),
+    user: {
+      username: user.username,
+      name: user.name,
+      id: user._id,
+    },
+  };
+
+  res.status(201).json(populatedResponse);
+});
+
+blogsRouter.post("/:id/comments", async (req, res) => {
+  console.log(req.body);
+  const comment = req.body.comment;
+  console.log(comment);
+
+  const blog = await Blog.findById(req.params.id).populate("user", {
+    username: 1,
+    name: 1,
+    id: 1,
+  });
+  blog.comments.push(comment);
+  console.log(blog);
+  await blog.save();
+
+  res.status(201);
 });
 
 blogsRouter.delete("/:id", async (req, res) => {
@@ -47,7 +76,9 @@ blogsRouter.delete("/:id", async (req, res) => {
   await Blog.findByIdAndRemove(req.params.id);
 
   const user = await User.findById(req.user._id);
-  user.blogs = user.blogs.filter((blogIds) => blogIds !== req.params.id);
+  user.blogs = user.blogs.filter((blogId) => {
+    return blogId.valueOf() !== req.params.id;
+  });
   await user.save();
 
   res.status(204).end();
