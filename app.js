@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // MIDDLEWARE SUCCEEDING ROUTES
-app.use((req, res) =>
+app.use("/*", (req, res) =>
   res.sendFile(path.join(__dirname, "build", "index.html"))
 );
 app.use(middleware.errorHandler);
