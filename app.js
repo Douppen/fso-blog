@@ -9,6 +9,7 @@ const loginRouter = require("./controllers/login");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
+const path = require("path");
 
 // CONNECT TO MONGODB
 mongoose
@@ -38,7 +39,9 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // MIDDLEWARE SUCCEEDING ROUTES
-app.use(middleware.unknownEndpoint);
+app.use((req, res) =>
+  res.sendFile(path.join(__dirname, "build", "index.html"))
+);
 app.use(middleware.errorHandler);
 
 module.exports = app;
