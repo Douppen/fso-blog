@@ -50,9 +50,7 @@ blogsRouter.post("/", async (req, res) => {
 });
 
 blogsRouter.post("/:id/comments", async (req, res) => {
-  console.log(req.body);
   const comment = req.body.comment;
-  console.log(comment);
 
   const blog = await Blog.findById(req.params.id).populate("user", {
     username: 1,
@@ -86,12 +84,6 @@ blogsRouter.delete("/:id", async (req, res) => {
 
 blogsRouter.put("/:id", async (req, res) => {
   const newBlog = req.body;
-
-  const originalBlog = await Blog.findById(req.params.id);
-
-  if (originalBlog.user.toString() !== req.user._id.toString()) {
-    return res.status(401).json({ error: "unauthorized" });
-  }
 
   const result = await Blog.findByIdAndUpdate(req.params.id, newBlog, {
     new: true,

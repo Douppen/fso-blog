@@ -31,6 +31,10 @@ usersRouter.post("/", async (req, res) => {
   if (existingUser)
     return res.status(400).json({ error: "username must be unique" });
 
+  if (!name) {
+    return res.status(400).json({ error: "name is required" });
+  }
+
   if (username.length < 3) {
     return res.status(400).json({
       error: "username must be at least 3 characters long",
